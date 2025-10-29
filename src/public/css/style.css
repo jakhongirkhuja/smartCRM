@@ -14,7 +14,7 @@ body {
 }
 
 input,
-textarea {
+textarea, select {
     width: 100%;
     margin-top: 8px;
     margin-bottom: 12px;
@@ -38,9 +38,32 @@ button {
 }
 
 .success {
-    color: green;
+    color: blue;
 }
 
 .error {
     color: red;
+}
+.form-control{
+    max-width: 400px;
+    margin: auto;
+}
+.d-inline{
+    display: inline-block;
+}
+.d-flex{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+
+}
+.d-flex input{
+    min-width: 200px;
+}
+.d-flex select{
+min-width: 200px;
+}
+.rounded-md svg{
+    display: none;
 }

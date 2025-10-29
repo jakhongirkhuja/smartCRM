@@ -28,4 +28,15 @@ class Ticket extends Model implements HasMedia
     {
         return $this->belongsTo(User::class);
     }
+    public function getStatusChangeAttribute()
+    {
+        if ($this->status === 'new') {
+            return 'Новая';
+        } elseif ($this->status === 'progress') {
+            return 'В работе';
+        } elseif ($this->status === 'done') {
+            return 'Обработана';
+        }
+        return $this->status;
+    }
 }

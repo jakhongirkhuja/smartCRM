@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Customer;
+use App\Models\Ticket;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class TicketRequest extends FormRequest
 {
@@ -28,6 +32,24 @@ class TicketRequest extends FormRequest
             'subject' => 'required|string|max:255',
             'message' => 'required|string|max:2000',
             'files.*' => 'nullable|file|max:2048',
+        ];
+    }
+    public function after(Validator $validator)
+    {
+        return [
+            function (Validator $validator) {
+                $existsToday = Customer::where('email', $this->email)
+                    ->where('phone', $this->phone)
+                    ->whereDate('created_at', Carbon::today())
+                    ->first();
+
+                if ($existsToday) {
+                    $validator->errors()->add(
+                        'email',
+                        'Вы уже отправляли заявку сегодня'
+                    );
+                }
+            },
         ];
     }
 }

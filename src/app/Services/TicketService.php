@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\TicketResource;
 use App\Models\Customer;
 use App\Models\Ticket;
 
@@ -25,6 +26,6 @@ class TicketService
             }
         }
 
-        return $ticket;
+        return new TicketResource($ticket);
     }
 }
