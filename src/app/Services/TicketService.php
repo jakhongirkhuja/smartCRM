@@ -7,7 +7,7 @@ use App\Models\Ticket;
 
 class TicketService
 {
-    public function create(array $data): Ticket
+    public function create($data)
     {
         $customer = Customer::firstOrCreate(
             ['email' => $data['email']],
@@ -15,7 +15,7 @@ class TicketService
         );
 
         $ticket = $customer->tickets()->create([
-            'subject' => $data['subject'],
+            'theme' => $data['subject'],
             'message' => $data['message'],
         ]);
 
