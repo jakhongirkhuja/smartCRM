@@ -1,0 +1,49 @@
+version: '3'
+networks:
+  smartkz:
+    driver: bridge
+services:
+  site:
+    image: nginx:stable-alpine
+    ports:
+      - "8097:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - db
+    networks:
+      - smartkz
+  db:
+    image: mysql:8.0
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_DATABASE: smartkzdb
+      MYSQL_USER: user1
+      MYSQL_PASSWORD: changeme
+      MYSQL_ROOT_PASSWORD: rootpassword
+    networks:
+      - smartkz                           
+  admin:
+    image: adminer
+    restart: always
+    depends_on: 
+      - db
+    ports:
+      - 8289:8080
+    networks:
+      - smartkz
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "9009:9002"
+      - "8087:8080"
+    
+    networks:
+      - smartkz
