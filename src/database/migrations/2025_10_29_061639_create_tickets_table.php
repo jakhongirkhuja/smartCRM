@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('customer_id');
             $table->string('theme');
             $table->text('message');
-            $table->enum('status', ['new', 'in_progress', 'processed'])->default('new');
+            $table->enum('status', ['new', 'progress', 'done'])->default('new');
             $table->timestamp('reply_at')->nullable();
             $table->foreignId('user_id')->nullable();
             $table->timestamps();
