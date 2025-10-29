@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Ticket;
+use Carbon\Carbon;
 
 class TicketRepository
 {
@@ -31,5 +32,17 @@ class TicketRepository
         }
 
         return $tickets->paginate(10);
+    }
+    public function getStatistics()
+    {
+
+        $todayCount = Ticket::whereDate('created_at', Carbon::today())->count();
+        $weekCount = Ticket::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+        $monthCount = Ticket::whereMonth('created_at', Carbon::now()->month)->count();
+        return [
+            'today' => $todayCount,
+            'week' => $weekCount,
+            'month' => $monthCount,
+        ];
     }
 }

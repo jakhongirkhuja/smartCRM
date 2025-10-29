@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TicketRequest;
+use App\Models\Ticket;
+use App\Repositories\TicketRepository;
 use App\Services\TicketService;
 use Illuminate\Http\Request;
 
@@ -16,13 +18,16 @@ class TicketController extends Controller
     {
         //
     }
-    public function statistics() {}
+    public function statistics(TicketRepository $tickets)
+    {
+        return response()->json($tickets->getStatistics());
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(TicketRequest $request, TicketService $ticketService)
     {
-        return response()->json($ticketService->create($request->validated()));
+        return response()->json($ticketService->create($request->validated()), 201);
     }
 
     /**
